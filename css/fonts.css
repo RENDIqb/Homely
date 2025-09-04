@@ -1,4 +1,4 @@
-/* Fonts.css - Setting up fonts for ProjectkeyboardOSWeb */
+
 
 @font-face {
     font-family: 'NotoSans';
@@ -126,7 +126,6 @@
     font-style: italic;
 }
 
-/* Condensed variants */
 @font-face {
     font-family: 'NotoSans Condensed';
     src: url('../Fonts/NotoSans-Condensed.ttf') format('truetype');
@@ -141,7 +140,6 @@
     font-style: italic;
 }
 
-/* SemiCondensed variants */
 @font-face {
     font-family: 'NotoSans SemiCondensed';
     src: url('../Fonts/NotoSans-SemiCondensed.ttf') format('truetype');
@@ -149,7 +147,6 @@
     font-style: normal;
 }
 
-/* ExtraCondensed variants */
 @font-face {
     font-family: 'NotoSans ExtraCondensed';
     src: url('../Fonts/NotoSans-ExtraCondensed.ttf') format('truetype');
@@ -157,7 +154,6 @@
     font-style: normal;
 }
 
-/* Basic styles for the system */
 * {
     font-family: 'NotoSans', sans-serif;
     font-weight: 400;
@@ -165,7 +161,6 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Classes for quick use of different fonts */
 .text-thin { font-weight: 100; }
 .text-extralight { font-weight: 200; }
 .text-light { font-weight: 300; }
