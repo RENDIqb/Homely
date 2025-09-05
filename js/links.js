@@ -3,7 +3,6 @@ const linkCategories = {
         { name: "ChatGPT", url: "https://chatgpt.com/" },
         { name: "Deepseek", url: "https://chat.deepseek.com/" },
         { name: "Google Drive", url: "https://drive.google.com" },
-        { name: "Github", url: "https://github.com" },
         { name: "Gmail", url: "https://mail.google.com" },
         { name: "Wikipedia", url: "https://www.wikipedia.org" },
         { name: "Google Translate", url: "https://translate.google.com/" },
@@ -12,7 +11,8 @@ const linkCategories = {
         { name: "Twitter", url: "https://www.twitter.com/" },
         { name: "Reddit", url: "https://www.reddit.com" },
         { name: "Discord", url: "https://discord.com" },
-        { name: "Telegram", url: "https://telegram.org/" }
+        { name: "Telegram", url: "https://telegram.org/" },
+        { name: "Github", url: "https://github.com" },
     ],
     content: [
         { name: "Spotify", url: "https://spotify.com" },
@@ -22,7 +22,7 @@ const linkCategories = {
         { name: "YouTube", url: "https://www.youtube.com" },
         { name: "Soundcloud", url: "https://soundcloud.com/" },
         { name: "Pinterest", url: "https://www.pinterest.com/" },
-        { name: "TikTok", url: "https://www.tiktok.com/en/" }
+        { name: "TikTok", url: "https://www.tiktok.com/en/" },
     ]
 };
 
