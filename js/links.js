@@ -6,6 +6,7 @@ const linkCategories = {
         { name: "Gmail", url: "https://mail.google.com" },
         { name: "Wikipedia", url: "https://www.wikipedia.org" },
         { name: "Google Translate", url: "https://translate.google.com/" },
+        { name: "Arch Linux", url: "https://archlinux.org/" },
     ],
     social: [
         { name: "Twitter", url: "https://www.twitter.com/" },
