@@ -27,7 +27,7 @@ body {
     overflow: hidden;
     position: relative;
     background: #1A1816; 
-    border: 3px solid #1A1816;
+    border: 2px solid #1A1816;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2),
                 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -40,6 +40,4 @@ body {
     background-position: center;
     pointer-events: none;
     border-radius: 20px;
-    filter: brightness(0.95) contrast(1.05);
-    opacity: 0.95;
 }
