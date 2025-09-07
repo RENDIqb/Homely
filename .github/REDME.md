@@ -10,30 +10,13 @@ A personal and customizable browser startpage, designed for tranquility and prod
 *   **Smooth Animations:** A pleasant loader and smooth hover transitions for buttons.
 *   **Adaptive Typography:** Uses the Noto Sans font with a full range of weights for perfect text rendering.
 
----
+## 🎯 Preview
 
-# README
-
-**Homely | Aesthetic Personal Startpage**
+**[View Homely Preview](https://rendiqb.github.io/Homely/)**
 
 ## Overview
 
 Homely is a lightweight, customizable, and aesthetically pleasing startpage designed to replace your browser's default new tab page. It aims to create a calm and productive environment by providing a personalized greeting and organized access to your frequently visited links.
-
-## Features
-
-- **Dynamic Greetings:** Context-aware greetings that change based on:
-    - Time of day (e.g., "Good morning", "Good afternoon")
-    - Day of the week
-    - Special holidays and dates (e.g., Christmas, New Year's Eve)
-- **Organized Link Collections:** Pre-defined categories (`Tools`, `Social Media`, `Content`) to keep your bookmarks tidy and easily accessible.
-- **Beautiful Design:**
-    - Minimalist and clean user interface.
-    - Custom, soothing color palette.
-    - Animated interactive elements (buttons, loader).
-    - Decorative SVG background pattern.
-- **Smooth Animations:** Includes subtle animations for a more engaging and polished user experience (page loader, hover effects).
-- **Quality Typography:** Utilizes the versatile **Noto Sans** font family for excellent readability across languages and weights.
 
 ## Installation & Usage
 
@@ -47,7 +30,17 @@ To use Homely as your browser's startpage, you will typically need a browser ext
     git clone https://github.com/RENDIqb/Homely.git
     ```
 2.  **Customize:** Edit the `index.html` file to add your own links to the respective categories (`Tools`, `Social Media`, `Content`).
-3.  **Configure Browser/Extension:** Point your chosen extension (or browser setting) to the local path of the `index.html` file from this project. For example: `file:///C:/Users/YourUsername/Path/To/Homely/index.html`
+3.  **Configure Browser/Extension:** Point your chosen extension (or browser setting) to the local path of the `index.html` file from this project.
+
+    **Windows:**
+    ```
+    file:///C:/Users/YourUsername/Path/To/Homely/index.html
+    ```
+
+    **Linux:**
+    ```
+    file:///home/YourUsername/Path/To/Homely/index.html
+    ```
 
 ## Customization
 
