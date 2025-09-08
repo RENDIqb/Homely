@@ -1,7 +1,7 @@
 function setGreeting() {
     const now = new Date();
     const hour = now.getHours();
-    const day = now.getDay(); // 0 - Sunday, 1 - Monday, etc.
+    const day = now.getDay();
     const date = now.getDate();
     const month = now.getMonth();
     
