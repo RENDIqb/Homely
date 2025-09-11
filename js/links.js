@@ -34,7 +34,7 @@ function createLinks() {
         linkElement.href = link.url;
         linkElement.className = 'btn';
         linkElement.textContent = link.name;
-        linkElement.target = '_blank';
+        linkElement.addEventListener('click', handleLinkClick);
         toolsContainer.appendChild(linkElement);
     });
     
@@ -44,7 +44,7 @@ function createLinks() {
         linkElement.href = link.url;
         linkElement.className = 'btn';
         linkElement.textContent = link.name;
-        linkElement.target = '_blank';
+        linkElement.addEventListener('click', handleLinkClick);
         socialContainer.appendChild(linkElement);
     });
     
@@ -54,9 +54,26 @@ function createLinks() {
         linkElement.href = link.url;
         linkElement.className = 'btn';
         linkElement.textContent = link.name;
-        linkElement.target = '_blank';
+        linkElement.addEventListener('click', handleLinkClick);
         contentContainer.appendChild(linkElement);
     });
+}
+
+function handleLinkClick(e) {
+    e.preventDefault();
+    
+    showLoader();
+    
+    setTimeout(() => {
+        window.location.href = this.href;
+    }, 300);
+}
+
+function showLoader() {
+    const loader = document.getElementById('loader');
+    if (loader) {
+        loader.classList.remove('hidden');
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {

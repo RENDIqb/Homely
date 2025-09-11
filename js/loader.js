@@ -1,16 +1,22 @@
 class PageLoader {
     constructor() {
         this.loader = document.getElementById('loader');
-        this.minDisplayTime = 800;
-        this.maxWaitTime = 4000;
+        this.minDisplayTime = 1000;
+        this.maxWaitTime = 8000;
         this.startTime = Date.now();
         this.resourcesLoaded = false;
+        this.imageLoaded = false;
+        this.isFirstLoad = !sessionStorage.getItem('pageAlreadyLoaded');
         
         this.init();
     }
 
     init() {
         if (!this.loader) return;
+        if (!this.isFirstLoad) {
+            this.removeLoaderImmediately();
+            return;
+        }
 
         if (this.shouldSkipLoader()) {
             this.removeLoaderImmediately();
@@ -21,6 +27,7 @@ class PageLoader {
         this.setupEventListeners();
         this.setSafetyTimeout();
         this.preloadCriticalResources();
+        this.trackBackgroundImage();
     }
 
     shouldSkipLoader() {
@@ -60,8 +67,8 @@ class PageLoader {
     isFontsLoaded() {
         if ('fonts' in document) {
             return Promise.all([
-                document.fonts.load('1rem "Geist"'),
-                document.fonts.load('1rem "Geist Mono"')
+                document.fonts.load('1rem "NotoSans"'),
+                document.fonts.load('1rem "NotoSans"')
             ]).then(() => true).catch(() => false);
         }
         return true;
@@ -81,7 +88,7 @@ class PageLoader {
 
     preloadCriticalResources() {
         const criticalResources = [
-            'assets/showcase.png',
+            '../assets/showcase.png',
             'css/fonts.css',
             'css/body.css',
             'css/content.css'
@@ -97,7 +104,9 @@ class PageLoader {
     }
 
     showLoader() {
-        this.loader.classList.remove('hidden');
+        if (this.loader) {
+            this.loader.classList.remove('hidden');
+        }
     }
 
     async hideLoader() {
@@ -106,10 +115,11 @@ class PageLoader {
         const elapsed = Date.now() - this.startTime;
         const remainingTime = Math.max(0, this.minDisplayTime - elapsed);
 
-
         await new Promise(resolve => setTimeout(resolve, remainingTime));
 
         this.loader.classList.add('hidden');
+        
+        sessionStorage.setItem('pageAlreadyLoaded', 'true');
         
         setTimeout(() => {
             if (this.loader && this.loader.parentNode) {
@@ -127,19 +137,52 @@ class PageLoader {
     setupEventListeners() {
         window.addEventListener('load', () => {
             this.resourcesLoaded = true;
-            this.hideLoader();
+            this.checkAllResourcesLoaded();
         });
 
         document.addEventListener('DOMContentLoaded', () => {
             if (document.readyState === 'complete') {
                 this.resourcesLoaded = true;
-                this.hideLoader();
+                this.checkAllResourcesLoaded();
             }
         });
 
         this.trackFontsLoading();
-        
         this.trackImagesLoading();
+    }
+
+    trackBackgroundImage() {
+        const imageWrapper = document.querySelector('.image-wrapper');
+        if (!imageWrapper) {
+            this.imageLoaded = true;
+            return;
+        }
+
+        const bgImage = window.getComputedStyle(imageWrapper).backgroundImage;
+        if (!bgImage || bgImage === 'none' || bgImage.includes('data:image')) {
+            this.imageLoaded = true;
+            return;
+        }
+
+        const imageUrl = bgImage.replace(/url\(['"]?(.*?)['"]?\)/i, '$1');
+        
+        const img = new Image();
+        img.onload = () => {
+            this.imageLoaded = true;
+            this.checkAllResourcesLoaded();
+        };
+        img.onerror = () => {
+            console.warn('Failed to load background image:', imageUrl);
+            this.imageLoaded = true;
+            this.checkAllResourcesLoaded();
+        };
+        img.src = imageUrl;
+    }
+
+    checkAllResourcesLoaded() {
+        if (this.resourcesLoaded && this.imageLoaded) {
+            this.hideLoader();
+        }
     }
 
     async trackFontsLoading() {
@@ -147,7 +190,7 @@ class PageLoader {
             try {
                 await document.fonts.ready;
                 this.resourcesLoaded = true;
-                this.hideLoader();
+                this.checkAllResourcesLoaded();
             } catch (error) {
                 console.warn('Font loading tracking failed:', error);
             }
@@ -155,22 +198,26 @@ class PageLoader {
     }
 
     trackImagesLoading() {
-        const criticalImages = document.querySelectorAll('img[loading="eager"], .image-wrapper');
+        const criticalImages = document.querySelectorAll('img[loading="eager"]');
         let loadedCount = 0;
         const totalCount = criticalImages.length;
 
-        if (totalCount === 0) return;
+        if (totalCount === 0) {
+            this.resourcesLoaded = true;
+            this.checkAllResourcesLoaded();
+            return;
+        }
 
         const checkAllLoaded = () => {
             loadedCount++;
             if (loadedCount === totalCount) {
                 this.resourcesLoaded = true;
-                this.hideLoader();
+                this.checkAllResourcesLoaded();
             }
         };
 
         criticalImages.forEach(img => {
-            if (img.complete || img.tagName === 'DIV') {
+            if (img.complete) {
                 checkAllLoaded();
             } else {
                 img.addEventListener('load', checkAllLoaded);
@@ -181,13 +228,25 @@ class PageLoader {
 
     setSafetyTimeout() {
         setTimeout(() => {
-            if (!this.resourcesLoaded) {
+            if (!this.resourcesLoaded || !this.imageLoaded) {
                 this.resourcesLoaded = true;
+                this.imageLoaded = true;
                 this.hideLoader();
             }
         }, this.maxWaitTime);
     }
 }
+
+window.showLoader = function() {
+    const loader = document.getElementById('loader');
+    if (loader) {
+        loader.classList.remove('hidden');
+    }
+};
+
+window.addEventListener('beforeunload', () => {
+    sessionStorage.removeItem('pageAlreadyLoaded');
+});
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
