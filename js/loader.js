@@ -33,7 +33,6 @@ class EnhancedPageLoader {
     }
 
     collectResources() {
-        // Критические ресурсы
         this.resources.critical = [
             '../assets/showcase.png',
             'css/fonts.css',
@@ -42,11 +41,9 @@ class EnhancedPageLoader {
             'css/loader.css'
         ];
 
-        // Изображения
         const images = document.querySelectorAll('img');
         this.resources.images = Array.from(images).map(img => img.src);
 
-        // Фон
         const bgElements = document.querySelectorAll('[style*="background-image"], .image-wrapper');
         bgElements.forEach(el => {
             const bgImage = window.getComputedStyle(el).backgroundImage;
@@ -56,7 +53,6 @@ class EnhancedPageLoader {
             }
         });
 
-        // Шрифты из CSS
         this.resources.fonts = [
             '../Fonts/NotoSans-Regular.ttf',
             '../Fonts/NotoSans-Italic.ttf',
@@ -64,11 +60,9 @@ class EnhancedPageLoader {
             '../Fonts/NotoSans-Bold.ttf'
         ];
 
-        // Стили
         const styles = document.querySelectorAll('link[rel="stylesheet"]');
         this.resources.styles = Array.from(styles).map(link => link.href);
 
-        // Подсчет общего количества
         this.totalCount = this.resources.critical.length + 
                          this.resources.images.length + 
                          this.resources.fonts.length;
@@ -76,21 +70,17 @@ class EnhancedPageLoader {
 
     async startLoading() {
         try {
-            // Предзагрузка критических ресурсов
             await this.preloadCriticalResources();
             
-            // Загрузка шрифтов
             await this.loadFonts();
             
-            // Загрузка изображений
             await this.loadImages();
             
-            // Все загружено
             this.onResourcesLoaded();
             
         } catch (error) {
             console.warn('Loading completed with warnings:', error);
-            this.onResourcesLoaded(); // Все равно завершаем
+            this.onResourcesLoaded();
         }
     }
 
@@ -107,7 +97,7 @@ class EnhancedPageLoader {
                 };
                 link.onerror = () => {
                     this.updateProgress();
-                    resolve(); // Продолжаем даже при ошибке
+                    resolve();
                 };
                 document.head.appendChild(link);
             });
@@ -132,7 +122,7 @@ class EnhancedPageLoader {
                     resolve();
                 }).catch(() => {
                     this.updateProgress();
-                    resolve(); // Продолжаем при ошибке
+                    resolve();
                 });
             });
         });
@@ -150,7 +140,7 @@ class EnhancedPageLoader {
                 };
                 img.onerror = () => {
                     this.updateProgress();
-                    resolve(); // Продолжаем при ошибке
+                    resolve();
                 };
                 img.src = imageUrl;
             });
@@ -163,10 +153,8 @@ class EnhancedPageLoader {
         this.loadedCount++;
         const percentage = Math.min(100, Math.round((this.loadedCount / this.totalCount) * 100));
         
-        // Можно добавить отображение прогресса, если нужно
         const progressElements = this.loader.querySelectorAll('.loader-circle');
         if (progressElements.length > 0) {
-            // Анимируем точки в зависимости от прогресса
             progressElements.forEach((circle, index) => {
                 if (percentage >= (index + 1) * 25) {
                     circle.style.opacity = '1';
@@ -191,7 +179,6 @@ class EnhancedPageLoader {
     }
 
     areCriticalResourcesCached() {
-        // Проверяем, закэшированы ли критические ресурсы
         return this.resources.critical.every(resource => {
             if (resource.endsWith('.png')) {
                 const img = new Image();
@@ -233,7 +220,6 @@ class EnhancedPageLoader {
     }
 
     setupEventListeners() {
-        // Резервные обработчики
         window.addEventListener('load', () => {
             if (!this.resourcesLoaded) {
                 this.resourcesLoaded = true;
@@ -259,7 +245,6 @@ class EnhancedPageLoader {
     }
 }
 
-// Глобальные функции
 window.showLoader = function() {
     const loader = document.getElementById('loader');
     if (loader) {
@@ -271,7 +256,6 @@ window.addEventListener('beforeunload', () => {
     sessionStorage.removeItem('pageAlreadyLoaded');
 });
 
-// Инициализация
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         new EnhancedPageLoader();
